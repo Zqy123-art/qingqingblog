@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>一颗小橙子</title>
+    <link rel="icon" href="../images/fav.png" type="../image/png" sizes="16x16">
+    <link rel="stylesheet" href="http://cdn.bootstrapmb.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/searchstyle.css">
+    <link href="../font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet">
+
+
+    <!--分页-->
+
+
+    <style type="text/css">
+
+        .picspecial {
+            width: 300px;
+            height: 200px;
+
+            overflow: hidden;
+        }
+
+        .picspecial img {
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            transition: all 0.6s;
+
+        }
+
+        .picspecial img:hover {
+            transform: scale(1.1);
+            -webkit-transform: scale(1.5);
+
+        }
+        * {
+            padding: 0;
+            margin: 0
+        }
+
+        .trigger-menu {
+
+            font-size: 0; /*消除li inline-block 为行内元素后的默认间距*/
+            list-style: none;
+        }
+
+        .trigger-menu li {
+            position: relative; /*关键点： 为每个li设置绝对定位*/
+            display: inline-block; /*使li为块级元素，可以横向排列*/
+            padding: 8px 0;
+            border-bottom: 2px solid transparent
+        }
+
+        .trigger-menu li:after { /*hover状态下时的底部横线*/
+            content: "";
+            position: absolute; /*关键点： 该元素行对定位于 li*/
+            left: 50%;
+            bottom: -2px;
+            width: 100%;
+            opacity: 0;
+            border-bottom: 2px solid orange;
+            transform: translate(-50%) scaleX(0);
+            transition: .2s ease-in-out;
+        }
+
+        .trigger-menu li:hover::after {
+            opacity: 1;
+            transform: translate(-50%) scaleX(1);
+        }
+
+        .trigger-menu a {
+            padding: 13px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            color: orange;
+            line-height: 25px;
+            text-decoration: none;
+        }
+
+        .trigger-menu a:hover {
+            color: orange;
+        }
+
+        /*点击后添加 .active 样式*/
+        .trigger-menu li.active {
+            color: orange;
+            border-bottom: 2px solid orange;
+        }
+
+        .trigger-menu li.active a {
+            color: orange;
+        }
+
+
+    </style>
+
+
+
+</head>
+<body style="background-color: saddlebrown">
+<div class="se-pre-con" style="background-color: orange"></div>
+<header>
+    <div style="height: 50px;margin: auto">
+        <h3 style="color: orange;margin-top: auto">一颗小橙子</h3>
+    </div>
+
+
+</header><!-- topbar -->
+<ul class="trigger-menu">
+
+    <li ><a href="/">首页</a></li>
+    <li class="active"><a href="/api/article">文章</a></li>
+    <li><a href="/edit" >查看&&编辑</a></li>
+    <li><a href="">其他功能正在完善中...</a></li>
+    <div class="search-box">
+        <input type="text" placeholder=" " style="background-color: saddlebrown;color: darkorange"/><span></span>
+    </div>
+
+</ul>
+
+
+
+<div style=" border: solid 3px darkorange; border-radius: 20px">
+    <section style="background-image: url('../images/orange.png');background-size:100%;background-position:center;border-radius: 15px  ">
+        <div>
+            <div class="row" style="margin-top: 20px;">
+                <div style="margin: auto;width:1350px;">
+                    <div class="row">
+                        <div style="margin-top: 20px;width: 90%;margin: auto">
+
+                            <!--文章内容-->
+                            <div  style="height: 620px;">
+
+                                <div style="margin: auto" th:each="articles:${pageInfo.list}">
+                                    <div class="row" style="position:relative;height: 150px">
+                                        <div style="width: 230px">
+                                            <div href="blog-detail.html" title="" class="picspecial"
+                                                 style="height: 150px;width: 200px;border:solid 3px;color:saddlebrown ;border-radius: 3% ">
+                                                <a th:href="@{'/api/article/'+${articles.id}}">
+                                                <img th:src="${articles.pictureUrl}"   alt=""
+                                                     style="height: 150px;width: 200px;border-radius: 1%"></a>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <h4><a th:href="@{'/api/article/'+${articles.id}}" th:text="${articles.title}"
+                                                       style="color: saddlebrown">标题</a>
+                                                </h4>
+                                                <span th:text="${articles.summary}" style="color:saddlebrown">内容</span>
+                                            </div>
+                                        </div>
+                                        <div style="width:350px;height:50px;position:absolute;right:0;bottom:0; ">
+                                            <span class="fa fa-eye" aria-hidden="true"
+                                                  style="margin-top: 35px;font-size:  15px"><span style="color:saddlebrown"  th:text="${articles.traffic}" >访问量</span></span>
+
+                                            <span class="fa fa-clock-o" aria-hidden="true"
+                                                              style="margin-left :20px;margin-top: 35px;font-size: 15px"><span
+                                                                th:text="${articles.date}"
+                                                                style="color:saddlebrown">时间</span></span>
+
+                                        </div>
+                                    </div>
+                                    <hr  style="height:1px;border:none;border-top:3px dashed saddlebrown;" />
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+            </div>
+    </section>
+
+
+</div>
+<script src="../js/jquery.js"></script>
+<script src="../js/load.js"></script>
+<script src="../js/sindex.js"></script>
+
+
+<ul class="mypagination" th:if="${pageInfo.pageNum!=0}">
+    <li th:if="${pageInfo.pageNum!=1}"><a
+            th:href="@{'/api/article?pageNum=1'}"><<</a></li>
+    <li th:if="${pageInfo.pageNum!=1}"><a
+            th:href="@{'/api/article?pageNum=' + ${pageInfo.pageNum -1}}"><</a>
+    </li>
+    <li th:if="${pageInfo.pageNum -2 >=1}"><a
+            th:href="@{'/api/article?pageNum=' + ${pageInfo.pageNum -2}}"
+            th:text="${pageInfo.pageNum  -2}">1</a></li>
+    <li th:if="${pageInfo.pageNum -1 >=1}"><a
+            th:href="@{'/api/article?pageNum=' + ${pageInfo.pageNum -1}}"
+            th:text="${pageInfo.pageNum  -1}">1</a></li>
+    <li style="color:white;"><a
+            th:href="@{'/api/article?pageNum=' + ${pageInfo.pageNum}}"
+            th:text="${pageInfo.pageNum}">1</a></li>
+    <li th:if="${pageInfo.pageNum+1 <=pageInfo.pages}"><a
+            th:href="@{'/api/article?pageNum=' + ${pageInfo.pageNum +1}}"
+            th:text="${pageInfo.pageNum  +1}">1</a></li>
+    <li th:if="${pageInfo.pageNum+2 <=pageInfo.pages}"><a
+            th:href="@{'/api/article?pageNum=' + ${pageInfo.pageNum +2}}"
+            th:text="${pageInfo.pageNum  +2}">1</a></li>
+    <li th:if="${pageInfo.pageNum!=pageInfo.pages}"><a
+            th:href="@{'/api/article?pageNum=' + ${pageInfo.pageNum +1}}">></a>
+    </li>
+    <li th:if="${pageInfo.pageNum!=pageInfo.pages}"><a
+            th:href="@{'/api/article?pageNum='+${pageInfo.pages}}">>></a>
+    </li>
+
+</ul>
+
+
+</body>
+</html>

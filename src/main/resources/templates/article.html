@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>一颗小橙子</title>
+
+    <link rel="icon" href="../../images/fav.png" type="../image/png" sizes="16x16">
+    <link rel="stylesheet" href="http://cdn.bootstrapmb.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/searchstyle.css">
+    <link href="../../font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/but.css">
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/load.js"></script>
+    <script src="../../js/sindex.js"></script>
+    <script src="../../js/Articlejs.js"></script>
+
+
+    <!--分页-->
+    <style type="text/css">
+
+        .picspecial {
+            width: 300px;
+            height: 200px;
+
+            overflow: hidden;
+        }
+
+        .picspecial img {
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            transition: all 0.6s;
+
+        }
+
+        .picspecial img:hover {
+            transform: scale(1.1);
+            -webkit-transform: scale(1.5);
+
+        }
+
+        * {
+            padding: 0;
+            margin: 0
+        }
+
+        .trigger-menu {
+
+            font-size: 0; /*消除li inline-block 为行内元素后的默认间距*/
+            list-style: none;
+        }
+
+        .trigger-menu li {
+            position: relative; /*关键点： 为每个li设置绝对定位*/
+            display: inline-block; /*使li为块级元素，可以横向排列*/
+            padding: 8px 0;
+            border-bottom: 2px solid transparent
+        }
+
+        .trigger-menu li:after { /*hover状态下时的底部横线*/
+            content: "";
+            position: absolute; /*关键点： 该元素行对定位于 li*/
+            left: 50%;
+            bottom: -2px;
+            width: 100%;
+            opacity: 0;
+            border-bottom: 2px solid orange;
+            transform: translate(-50%) scaleX(0);
+            transition: .2s ease-in-out;
+        }
+
+        .trigger-menu li:hover::after {
+            opacity: 1;
+            transform: translate(-50%) scaleX(1);
+        }
+
+        .trigger-menu a {
+            padding: 13px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            color: orange;
+            line-height: 25px;
+            text-decoration: none;
+        }
+
+        .trigger-menu a:hover {
+            color: orange;
+        }
+
+        /*点击后添加 .active 样式*/
+        .trigger-menu li.active {
+            color: orange;
+            border-bottom: 2px solid orange;
+        }
+
+        .trigger-menu li.active a {
+            color: orange;
+        }
+
+        .comment li{
+            list-style-type:none;
+        }
+    </style>
+
+
+</head>
+<body style="background-color: saddlebrown">
+<div class="se-pre-con" style="background-color: orange"></div>
+<header>
+    <div style="height: 50px;margin: auto">
+        <h3 style="color: orange;margin-top: auto">一颗小橙子</h3>
+    </div>
+
+
+</header><!-- topbar -->
+<ul class="trigger-menu">
+    <li><a href="/">首页</a></li>
+    <li><a href="/api/article">文章</a></li>
+    <li><a href="/edit" >查看&&编辑</a></li>
+    <li><a href="">其他功能正在完善中。。。</a></li>
+    <div class="search-box">
+        <input type="text" placeholder=" " style="background-color: saddlebrown;color: darkorange"/><span></span>
+    </div>
+</ul>
+
+
+<div style=" border: solid 3px darkorange; border-radius: 20px">
+    <section style="background-color:orange;border-radius: 15px  ">
+        <div>
+            <div class="row" style="margin-top: 20px;">
+                <div style="margin: auto;width:1350px;">
+                    <div class="row">
+                        <div style="margin-top: 20px;width: 90%;margin: auto">
+
+                            <!--文章内容-->
+
+                            <div class="row">
+                                <div class="butt"
+                                     style="margin-top: 0px;margin-left:auto;margin-right:auto;height: 100px;border-radius: 30%;border: solid saddlebrown 5px;">
+                                    <div style="margin: auto;width: 600px ;height:1px;"></div>
+                                    <div id="font" th:text="${articleDto.title}">标题</div>
+                                </div>
+                            </div>
+                            <span style="color: saddlebrown;">创建时间:<span th:text="${creatdate}">创建时间</span></span>
+                            <span style="color: saddlebrown;margin-left: 10px">修改时间:<span
+                                    th:text="${modifydate}">修改时间</span></span>
+                            <span style="color: saddlebrown;margin-left: 10px">访问数:<span
+                                    th:text="${articleDto.traffic}">访问数</span></span>
+
+                            <hr style="border: saddlebrown solid 5px"/>
+                            <div class="row">
+
+                                <div style="margin-left: 0px;width: 30px;height: 620px;">
+                                    <!--定高度-->
+                                </div>
+
+                                <!--文章内容-->
+                                <div class="text"
+                                     style="margin-top: 20px;margin-left:auto;margin-right:auto;width: 1000px;border-radius: 15px;font-size: 20px;color: saddlebrown;">
+                                    <div id="content" style="margin-left: 35px;margin-right: 35px">
+                                        文章内容
+                                    </div>
+                                </div>
+
+                                <div style="margin-right: 0px;width: 30px;height: 620px;">
+                                </div>
+                            </div>
+
+                            <!--评论区-->
+                            <hr style="border: saddlebrown solid 6px"/>
+                            <span style="font-size: 25px;color: saddlebrown">评论:</span>
+                            <div style="width: 1240px;border: solid saddlebrown 3px;border-radius: 10px">
+
+                                <ul class="comment" th:each="comment:${commentDtos}">
+                                    <li>
+                                        <div class="row" style="position: relative">
+                                        <div>
+                                            <img style="width: 60px;height: 60px;border-radius: 100%;border: solid #ffefc1;margin-top: 35px;margin-left: 20px"
+                                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1672477765,2527992874&fm=26&gp=0.jpg"/>
+                                        </div>
+                                        <div>
+                                            <div style="margin-left: 10px;margin-top: 5px;font-size: 20px;color: saddlebrown" th:text="${comment.name}">
+                                                123
+                                            </div>
+                                            <div style="background-color: white;opacity:0.7;font-size: 30px;margin-left: 10px;margin-top: 5px;border-radius: 10px;border: white solid;" th:text="${comment.content}">
+                                                123
+                                            </div>
+                                        </div>
+                                        <div style="position: absolute;bottom: 0px;right: 50px;font-size: 25px;color: saddlebrown" th:text="${comment.creat_by}"  >时间</div>
+                                    </div>
+                                        <hr style="border: dashed saddlebrown"/>
+                                    </li>
+                                </ul>
+
+
+
+                                <!--分页-->
+                                <div style="height: 50px;text-align: center " th:if="${len} gt '0'">
+
+                                    <button class="btn  btn-bn" id="firPage" onclick="firstPage()" style="width: 60px;">首页</button>
+                                    <button class="btn  btn-bn" id="prePage" onclick="prevPage()" style="width: 80px;">上一页</button>
+                                    <button class="btn  btn-bn" id="nexPage" onclick="pnextPage()" style="width: 80px;">下一页</button>
+                                    <button class="btn  btn-bn" id="lasPage" onclick="lastPage()" style="width: 60px;">尾页</button>
+                                    <span style="color: #aa5500"> 第<span id="numPage" style="width: 100px;height: 100px;border: solid saddlebrown 3px;font-size: 30px;color: #aa5500 " ></span>页</span>
+                                </div>
+
+                                <!--评论-->
+                                <div style="width: 600px;margin-top: 10px" class="input-group mb-3">
+
+                                    <input id="comment"
+                                           style="background-color: saddlebrown;border: solid darkorange;color: orange;border-radius: 20px";
+                                           type="text" class="form-control" value="评论一下。。。">
+                                    <button class="btn  btn-an" style="margin-left: 10px ;width: 100px;font-size: 25px;border-radius: 100px"
+                                            onclick="upComment(htmltext)">
+                                        发送
+                                    </button>
+                                </div>
+
+
+                            </div>
+
+                            <div style="height: 20px;width: 1px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>
+
+<div style=" border: solid 3px darkorange; border-radius: 20px;margin-top: 20px">
+    <section style="background-color:orange;border-radius: 15px  ">
+        <div style="margin: auto;width:1325px;height: 50px;"></div>
+    </section>
+</div>
+
+   
+
+
+
+
+
+
+<script type="text/javascript" th:inline="javascript">
+
+    var list =$(".comment li")
+    var totalRow = [[${len}]];   /*计算出总条数(这种方法用来获取table行数，获取列数用var cells = departmentsInfo.rows[0].cells.length;*/
+    var pagesize = 3;   /*每页条数*/
+    var totalPage = Math.ceil(totalRow/pagesize);  /*计算出总页数*/
+    var currentPage;
+    var startRow;
+    var lastRow;
+    function pagination(i){
+        currentPage = i;/*当前页*/
+        $("#numPage").text(currentPage);   /*显示页码*/
+        startRow = (currentPage-1)*pagesize;/*每页显示第一条数据的行数*/
+        lastRow = currentPage*pagesize;/*每页显示的最后一条数据的行数,因为表头也算一行，所以这里不需要减1，这种情况以自己的实际情况为准*/
+        if(lastRow>totalRow){
+            lastRow=totalRow;/*如果最后一页的最后一条数据显示的行数大于总条数，那么就让最后一条的行数等于总条数*/
+        }
+
+
+        for(var i = 0;i<totalRow;i++){   /*将数据遍历出来*/
+            var hrow =list[i];
+            if(i>=startRow&&i<lastRow){
+                hrow.style.display="";
+            }else{
+                hrow.style.display="none";
+            }
+        }
+    }
+    $(function(){
+        firstPage();
+    });
+    function firstPage(){
+        var i = 1;
+        pagination(i);
+    }
+    function prevPage(){
+        var i= currentPage-1;
+        if(i<1){
+            i=currentPage;
+        }
+        pagination(i);
+    }
+    function pnextPage(){
+        var i= currentPage+1;
+        if(i>totalPage){
+            i= currentPage;
+        }
+        pagination(i);
+    }
+    function lastPage(){
+        var i = totalPage;
+        pagination(i);
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<script th:inline="javascript">
+
+    var htmltext = [[${articleDto.content}]];
+    id = [[${articleDto.id}]];
+    $("#content").html(htmltext)
+</script>
+
+</body>
+</html>
